@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -28,6 +29,11 @@ public class ModernArtUIActivity extends ActionBarActivity implements OnSeekBarC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modern_art_ui);
 
+        setClick();
+
+        mSeekBar = (SeekBar) findViewById(R.id.seekBar);
+        mSeekBar.setOnSeekBarChangeListener(this);
+
         // find rectangles to be colored
         mRectangles[0] = findViewById(R.id.layout1);
         mRectangles[1] = findViewById(R.id.layout2);
@@ -43,13 +49,8 @@ public class ModernArtUIActivity extends ActionBarActivity implements OnSeekBarC
             }
         } else {
             // create colors for each colored square
-            for (int i = 0; i < RECTANGLE_QTD; i++) {
-                mColors[i] = new RandomColor(this);
-            }
+            restartColors();
         }
-
-        mSeekBar = (SeekBar) findViewById(R.id.seekBar);
-        mSeekBar.setOnSeekBarChangeListener(this);
 
         // initial color
         setRectanglesColors(mSeekBar.getProgress());
@@ -61,6 +62,7 @@ public class ModernArtUIActivity extends ActionBarActivity implements OnSeekBarC
         getMenuInflater().inflate(R.menu.menu_modern_art_ui, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -124,4 +126,20 @@ public class ModernArtUIActivity extends ActionBarActivity implements OnSeekBarC
         }
     }
 
+    private void setClick() {
+        View layoutMaster = findViewById(R.id.layoutMaster);
+        layoutMaster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restartColors();
+                setRectanglesColors(mSeekBar.getProgress());
+            }
+        });
+    }
+
+    private void restartColors() {
+        for (int i = 0; i < RECTANGLE_QTD; i++) {
+            mColors[i] = new RandomColor(this);
+        }
+    }
 }

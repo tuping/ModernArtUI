@@ -82,11 +82,9 @@ public class RandomColor {
         }
         //dont want "grey" color
         while (
-                (ret[0] <= ret[1]+minDiference) && (ret[0] >= ret[1]-minDiference) &&
                 (ret[0] <= ret[2]+minDiference) && (ret[0] >= ret[2]-minDiference) &&
                 (ret[1] <= ret[2]+minDiference) && (ret[1] >= ret[2]-minDiference)
         ) {
-            ret[1] = mRandom.nextInt(256);
             ret[2] = mRandom.nextInt(256);
         }
         return ret;
